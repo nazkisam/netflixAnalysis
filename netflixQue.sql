@@ -50,18 +50,15 @@ SELECT
 FROM netflix
 GROUP BY 1;
 
-
-
-
-
-
-
-
-
-
-
-
 -- 2. Find the Most Common Rating for Movies and TV Shows
+
+
+SELECT *FROM netflix
+
+
+
+
+
 -- 3. List All Movies Released in a Specific Year (e.g., 2020)
 -- 4. Find the Top 5 Countries with the Most Content on Netflix
 -- 5. Identify the Longest Movie
