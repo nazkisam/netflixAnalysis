@@ -11,4 +11,25 @@ show_id      VARCHAR(5),
     duration     VARCHAR(15),
     listed_in    VARCHAR(250),
     description  VARCHAR(550)
+);
+
+
+COPY netflix 
+(show_id     ,
+    type         ,
+    title        ,
+    director     ,
+    casts        ,
+    country      ,
+    date_added   ,
+    release_year, 
+    rating    ,   
+    duration ,    
+    listed_in,
+    description  
 )
+
+FROM 'D:\PLCPP\SQL\newproject\netflix\netflix_titles.csv' 
+DELIMITER ','
+CSV HEADER;
+ 
