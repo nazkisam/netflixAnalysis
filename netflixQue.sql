@@ -67,18 +67,23 @@ group by 1,2
 ) AS t1
 WHERE ranking = 1
 
-
---commit this to git
-
-
-
-
-
-
-
-
 -- 3. List All Movies Released in a Specific Year (e.g., 2020)
+SELECT title FROM netflix
+WHERE release_year  = 2000
+
 -- 4. Find the Top 5 Countries with the Most Content on Netflix
+SELECT *FROM netflix
+
+SELECT  UNNEST(STRING_TO_ARRAY(country, ',')) AS COUNTRY,
+COUNT(*) AS TOTAL_CONTENT
+FROM netflix 
+WHERE COUNTRY IS NOT NULL
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5
+
+
+
 -- 5. Identify the Longest Movie
 -- 6. Find Content Added in the Last 5 Years
 -- 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
