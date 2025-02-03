@@ -52,8 +52,26 @@ GROUP BY 1;
 
 -- 2. Find the Most Common Rating for Movies and TV Shows
 
+--first we will check for tv shows and movies /how many times each rating has been given to the same.
 
-SELECT *FROM netflix
+--using window function- 
+SELECT type,rating 
+FROM
+(SELECT 
+type, 
+rating,
+COUNT(*),
+RANK() OVER(PARTITION BY type ORDER BY COUNT(*)DESC) AS ranking
+FROM netflix
+group by 1,2
+) AS t1
+WHERE ranking = 1
+
+
+--commit this to git
+
+
+
 
 
 
