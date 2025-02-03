@@ -139,9 +139,52 @@ WHERE type = 'TV Show'
   ORDER BY seasons DESC
 
 -- 9. Count the Number of Content Items in Each Genre
+
+SELECT *FROM netflix
+
+SELECT UNNEST(STRING_TO_ARRAY(listed_in,',')) AS gener,COUNT(*)
+FROM netflix
+GROUP BY 1
+
 -- 10.Find each year and the average numbers of content release in India on netflix.
+
+SELECT country,release_year,title_india
+FROM(
+
+SELECT country,release_year, 
+   ROUND(
+        ROUND((CAST(COUNT(show_id) AS numeric) / CAST((SELECT COUNT(show_id) FROM netflix WHERE country = 'India') AS numeric)) * 100, 2)
+        )AS title_india
+         
+ FROM netflix
+ GROUP BY 1,2
+)AS  avg 
+WHERE country = 'India'
+GROUP BY 1,2,3
+ORDER BY release_year DESC
+FETCH FIRST 5 ROWS ONLY;
+
+
+
 -- 11. List All Movies that are Documentaries
+SELECT title,type,listed_in FROM netflix
+WHERE type = 'Movie' AND listed_in LIKE '%Documentaries';
+
+
+
 -- 12. Find All Content Without a Director
+
+SELECT *FROM netflix
+
+SELECT title FROM netflix
+WHERE director IS NULL
+
 -- 13. Find How Many Movies Actor 'Salman Khan' Appeared in the Last 10 Years
+
+SELECT title,casts
+FROM netflix
+WHERE casts LIKE '%Salman Khan%' AND release_year > EXTRACT(YEAR FROM CURRENT_TIMESTAMP)  - 10
+
+
 -- 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
 -- 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
