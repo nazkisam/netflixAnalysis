@@ -116,8 +116,28 @@ FROM (
 ) AS t
 WHERE director_name = 'Rajiv Chilaka';
 
-
 -- 8. List All TV Shows with More Than 5 Seasons
+
+--this is better query
+SELECT title,seasons FROM 
+(
+    SELECT title ,split_part(duration,' ',1)::INT  AS seasons,type
+ FROM netflix
+ WHERE type = 'TV Show'
+ ) as s 
+ WHERE seasons > 5
+GROUP BY 1,2
+ORDER BY seasons DESC
+
+
+--less optimized than the above query, because of using CAST(SPLIT_PART(duration,' ',1) AS INT) AS seasons two times
+SELECT title, CAST(SPLIT_PART(duration,' ',1) AS INT) AS seasons
+FROM netflix
+WHERE type = 'TV Show'
+  AND CAST(SPLIT_PART(duration, ' ', 1) AS INT) > 5 
+  GROUP BY 1,2
+  ORDER BY seasons DESC
+
 -- 9. Count the Number of Content Items in Each Genre
 -- 10.Find each year and the average numbers of content release in India on netflix.
 -- 11. List All Movies that are Documentaries
