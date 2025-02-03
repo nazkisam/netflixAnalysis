@@ -92,11 +92,31 @@ ORDER BY split_part(duration,' ',1)::INT DESC
 LIMIT 1
 
 
-
-
-
 -- 6. Find Content Added in the Last 5 Years
+SELECT title,date_added FROM netflix 
+WHERE TO_DATE(date_added, 'Month DD, YYYY')>= CURRENT_TIMESTAMP - INTERVAL  '5 years';
+
+
 -- 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+
+SELECT title,director 
+FROM(
+SELECT *, UNNEST(STRING_TO_ARRAY(director,',')) AS director_name
+FROM netflix
+) AS d
+WHERE director_name = 'Rajiv Chilaka';
+
+
+SELECT title,director_name
+FROM (
+    SELECT 
+        *,
+        UNNEST(STRING_TO_ARRAY(director, ',')) AS director_name
+    FROM netflix
+) AS t
+WHERE director_name = 'Rajiv Chilaka';
+
+
 -- 8. List All TV Shows with More Than 5 Seasons
 -- 9. Count the Number of Content Items in Each Genre
 -- 10.Find each year and the average numbers of content release in India on netflix.
