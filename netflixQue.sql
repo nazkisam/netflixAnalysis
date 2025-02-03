@@ -75,16 +75,26 @@ WHERE release_year  = 2000
 SELECT *FROM netflix
 
 SELECT  UNNEST(STRING_TO_ARRAY(country, ',')) AS COUNTRY,
-COUNT(*) AS TOTAL_CONTENT
+COUNT(show_id) AS TOTAL_CONTENT
 FROM netflix 
 WHERE COUNTRY IS NOT NULL
 GROUP BY 1
 ORDER BY 2 DESC
-LIMIT 5
-
+FETCH FIRST 5 ROWS ONLY
 
 
 -- 5. Identify the Longest Movie
+
+SELECT title ,duration
+FROM netflix
+WHERE type  = 'Movie' AND duration IS NOT NULL
+ORDER BY split_part(duration,' ',1)::INT DESC 
+LIMIT 1
+
+
+
+
+
 -- 6. Find Content Added in the Last 5 Years
 -- 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
 -- 8. List All TV Shows with More Than 5 Seasons
