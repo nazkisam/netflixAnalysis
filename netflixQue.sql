@@ -183,8 +183,37 @@ WHERE director IS NULL
 
 SELECT title,casts
 FROM netflix
-WHERE casts LIKE '%Salman Khan%' AND release_year > EXTRACT(YEAR FROM CURRENT_TIMESTAMP)  - 10
+WHERE casts LIKE '%Salman Khan%' AND release_year > EXTRACT(YEAR FROM CURRENT_TIMESTAMP)  - 10;
 
 
 -- 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
+
+
+
+SELECT UNNEST(STRING_TO_ARRAY(casts, ',')) AS top_Actors,COUNT(*)
+FROM netflix
+WHERE type = 'Movie' AND country = 'India'
+GROUP BY top_Actors
+ORDER BY COUNT(*) DESC
+FETCH FIRST 10 ROWS ONLY;
+
+
+
+
 -- 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
+
+SELECT 
+category,
+count(*) AS content_count 
+FROM(
+SELECT
+   CASE 
+  WHEN description LIKE '%kill%' OR description LIKE '%violence%' THEN 'BAD'
+ ELSE 'GOOD'
+ END AS category
+ FROM netflix
+ ) AS cat_con
+ GROUP BY category ;
+
+
+
